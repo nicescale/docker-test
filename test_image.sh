@@ -12,7 +12,7 @@ iecho() {
 }
 
 die() {
-  /bin/echo -ne "Error: $servicetype:$servicevsn: " 1>&2
+  /bin/echo -ne "Error: $servicetype:$servicevsn:$sid " 1>&2
   /bin/echo $* 1>&2
   sleep 4
   dockernice service $sid stop
