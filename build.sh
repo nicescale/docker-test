@@ -10,7 +10,7 @@ dd=`date +%s`
 tmpdir=/tmp/docker-$dd
 mkdir $tmpdir
 for i in $softlist;do
-  giturl=git@github.com:NiceScale/${i}.git
+  giturl=https://github.com/nicescale/${i}.git
   git clone $giturl $tmpdir/$i
   cd $tmpdir/$i
   [ $gfw == "cn" ] &&
