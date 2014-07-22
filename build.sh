@@ -18,4 +18,6 @@ for i in $softlist;do
   docker build -t nicescale/$i .
 done
 
+cd /
+
 rm -fr $tmpdir

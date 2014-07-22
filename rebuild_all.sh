@@ -1,10 +1,11 @@
 #!/bin/bash
 
+prefix_path=`dirname $0`
 begin_time=`date +%s`
 softlist="apache_php haproxy memcached percona-mysql redis tomcat"
 
 echo "building new images ..."
-/root/cron/build.sh
+$prefix_path/build.sh
 
 build_time=`date +%s`
 dif=$(( build_time - begin_time ))
@@ -21,7 +22,7 @@ echo "remove container ..."
 docker ps --all|grep -v Up|grep -v nsregistry|grep -v CONTAINER|grep -v nicerepo|awk '{print $1}'|xargs docker rm
 
 echo "push images to new nsregistry-ci ..."
-/root/cron/push.sh 
+$prefix_path/push.sh 
 docker tag centos:6.4 127.0.0.1:6090/centos:6.4
 docker tag centos 127.0.0.1:6090/centos
 docker push 127.0.0.1:6090/centos

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+prefix_path=`dirname $0`
 for i in {1..100}; do
-  /root/cron/test.sh
+  $prefix_path/test.sh
 done
