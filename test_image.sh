@@ -12,15 +12,15 @@ iecho() {
 }
 
 die() {
-  /bin/echo -ne "Error: $servicetype:$servicevsn: " 1>&2
+  /bin/echo -ne "Error: $servicetype:$servicevsn:$sid: " 1>&2
   /bin/echo $* 1>&2
-  sleep 4
+  sleep 2
   dockernice service $sid stop
   dockernice service $sid destroy || echo "Error: failed to service $sid destroy!!" 1>&2
   exit 1
 }
 error() {
-  /bin/echo -ne "Error: $servicetype:$servicevsn: " 1>&2
+  /bin/echo -ne "Error: $servicetype:$servicevsn:$sid: " 1>&2
   /bin/echo $* 1>&2
   exit 1
 }
@@ -51,10 +51,10 @@ waits() {
 
 
 iecho lauching docker
-dockernice run $servicetype $servicevsn $sname $sid || die "run error!!"
+dockernice run $servicetype $servicevsn $sname $sid || die "run failed!!"
 waits
 dockernice prepare $servicetype $servicevsn $sname $sid || die "prepare double failed!!"
-dockernice create $servicetype $servicevsn $sname $sid || error "create double failed!!" #|| die "create double failed!!"
+dockernice create $servicetype $servicevsn $sname $sid || die "create double failed!!" #|| die "create double failed!!"
 sleep 1
 waits
 iecho exec echo in docker
