@@ -3,7 +3,7 @@
 gfw=cn
 [ -n "$1" ] && gfw=$1
 
-softlist="apache_php haproxy memcached percona-mysql redis tomcat"
+softlist="apache_php haproxy memcached percona-mysql redis tomcat registry-haproxy"
 [ -n "$2" ] && softlist=$2
 
 dd=`date +%s`
