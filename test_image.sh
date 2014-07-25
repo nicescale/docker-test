@@ -106,3 +106,6 @@ iecho remove service $sid again
 dockernice service $sid stop || die "failed to stop service!!"
 dockernice kill $sid
 dockernice service $sid destroy || die "failed to remove service!!"
+
+# when exception, then reserve upstart log for troubleshooting
+/bin/rm /var/log/upstart/docker-$sid.log
