@@ -1,8 +1,10 @@
 #!/bin/bash
 
-current_dir=`pwd`
-prefix_path=`dirname $0`
-stackfile=$current_dir/$prefix_path/stacklist.conf
+PREFIX_DIR=$(dirname `readlink -f $0`)
+stackfile=$PREFIX_DIR/stacklist.conf
+
+STACK=$1
+BRANCH=$2
 
 ini_section() {
   INI_FILE=$1
@@ -55,27 +57,13 @@ get_tags() {
   echo $avar
 }
 
-stacklist=`ini_section $stackfile`
 ini_parse $stackfile
 
-mkdir /tmp/XX
-cd /tmp/XX
+tags=`get_tags $STACK $BRANCH`
+first_tag=`echo $tags|cut -f1 -d','`
+rest_tags=`echo $tags|cut -f2- -d','`
 
-for s in $stacklist; do
-  echo "> stack $s"
-  mkdir $s
-  for b in `get_branch $stackfile $s`; do
-    echo "  > cloning $s:$b"
-    tags=`get_tags $s $b`
-    first_tag=`echo $tags|cut -f1 -d','`
-    rest_tags=`echo $tags|cut -f2- -d','`
-
-    cd $s
-    git clone --branch $b https://github.com/nicescale/$s.git $b
-    docker build -t nicescale/$s:$first_tag .
-    for t in `echo $rest_tags|tr ',' ' '`; do
-      docker tag nicescale/$s:$first_tag nicescale/$b:$t
-    done
-    cd ..
-  done
+echo docker build -t nicescale/$STACK:$first_tag .
+for t in `echo $rest_tags|tr ',' ' '`; do
+  echo docker tag nicescale/$STACK:$first_tag nicescale/$STACK:$t
 done
