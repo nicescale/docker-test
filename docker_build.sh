@@ -63,7 +63,7 @@ tags=`get_tags $STACK $BRANCH`
 first_tag=`echo $tags|cut -f1 -d','`
 rest_tags=`echo $tags|cut -f2- -d','`
 
-echo docker build -t nicescale/$STACK:$first_tag .
+docker build -t nicescale/$STACK:$first_tag .
 for t in `echo $rest_tags|tr ',' ' '`; do
-  echo docker tag nicescale/$STACK:$first_tag nicescale/$STACK:$t
+  docker tag nicescale/$STACK:$first_tag nicescale/$STACK:$t
 done
