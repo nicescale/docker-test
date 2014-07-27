@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
-  <description>用于在github代码发生变更时，自动build docker {stack}仓库</description>
+  <description>when github changes, build {stack} automatically</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.9.1">
@@ -12,12 +12,12 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>git@github.com:nicescale/{stack}.git</url>
+        <url>https://github.com/nicescale/{stack}.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
       <hudson.plugins.git.BranchSpec>
-        <name>*/master</name>
+        <name>*/{branch}</name>
       </hudson.plugins.git.BranchSpec>
     </branches>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
@@ -32,22 +32,27 @@
     <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.9.1">
       <spec></spec>
     </com.cloudbees.jenkins.GitHubPushTrigger>
+    <hudson.triggers.SCMTrigger>
+      <spec>H/10 * * * *</spec>
+      <ignorePostCommitHooks>false</ignorePostCommitHooks>
+    </hudson.triggers.SCMTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>cd {stack}
-docker build -t nicescale/{stack} .
-docker tag nicescale/{stack} 127.0.0.1:6090/nicescale/{stack}
-docker push 127.0.0.1:6090/nicescale/{stack}</command>
+      <command>stack=`echo $JOB_NAME|cut -f2 -d&apos;-&apos;`
+branch=`echo $JOB_NAME|cut -f3 -d&apos;-&apos;`
+../docker-test/docker_build.sh $stack $branch
+../docker-test/docker_push.sh $stack $branch
+</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
     <hudson.tasks.Mailer plugin="mailer@1.6">
-      <recipients>lijun.wang@nicescale.com</recipients>
+      <recipients>hanwoody@gmail.com</recipients>
       <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
       <sendToIndividuals>false</sendToIndividuals>
     </hudson.tasks.Mailer>
   </publishers>
   <buildWrappers/>
-
+</project>
