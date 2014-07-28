@@ -9,7 +9,7 @@ for s in $STACKLIST; do
     tags=`get_tags $s $b`
     for t in `echo $tags|tr ',' ' '`; do
       [ "$t" = "latest" ] && continue
-      echo $PREFIX_DIR/test_image.sh nicescale/$s $t
+      $PREFIX_DIR/test_image.sh nicescale/$s $t
     done
   done
 done
