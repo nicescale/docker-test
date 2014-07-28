@@ -13,7 +13,8 @@ for s in $STACKLIST; do
     JOB_DIR=/var/jenkins_home/jobs/docker-$s-$b
     if [ ! -d $JOB_DIR ]; then
       mkdir $JOB_DIR
-      sed -n -e "s/{stack}/$s/gp" -e "s/{branch}/$b/gp" $JENKINS_TPL > $JOB_DIR/config.xml
+      cp $JENKINS_TPL $JOB_DIR/config.xml
+      sed -i -e "s/{stack}/$s/gp" -e "s/{branch}/$b/gp" $JOB_DIR/config.xml
       need_restart=true
     fi
   done
