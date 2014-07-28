@@ -40,8 +40,9 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>stack=`echo $JOB_NAME|cut -f2 -d&apos;-&apos;`
-branch=`echo $JOB_NAME|cut -f3 -d&apos;-&apos;`
+      <command>TVAR=`echo $JOB_NAME|cut -f2- -d&apos;-&apos;`
+stack=`echo $TVAR|rev|cut -d&apos;-&apos; -f2- |rev`
+branch=`echo $TVAR|rev|cut -d&apos;-&apos; -f1|rev`
 $JENKINS_HOME/jobs/docker-test/workspace/docker_build.sh $stack $branch
 $JENKINS_HOME/jobs/docker-test/workspace/docker_test.sh $stack $branch
 $JENKINS_HOME/jobs/docker-test/workspace/docker_push.sh $stack $branch
