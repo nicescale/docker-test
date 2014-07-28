@@ -4,6 +4,8 @@ PREFIX_DIR=$(dirname `readlink -f $0`)
 . $PREFIX_DIR/get_images.sh
 JENKINS_TPL=$PREFIX_DIR/jenkins.tpl
 
+JENKINS_CLI=$JENKINS_HOME/war/WEB-INF/jenkins-cli.jar
+
 need_restart=false
 for s in $STACKLIST; do
   for b in `get_branch $s`; do
@@ -19,4 +21,4 @@ for s in $STACKLIST; do
 done
 
 $need_restart &&
-nicedocker service nicescale_ci restart
+java -jar $JENKINS_CLI restart
