@@ -1,8 +1,9 @@
 #!/bin/bash
 
+set -x
+
 NICEDOCKER_URL=repo.nicedocker.com:5000
 PREFIX_DIR=$(dirname `readlink -f $0`)
-echo $PREFIX
 source $PREFIX_DIR/get_images.sh
 
 for STACK in $STACKLIST; do
