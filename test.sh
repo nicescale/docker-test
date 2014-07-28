@@ -1,10 +1,16 @@
 #!/bin/bash
 
-prefix_path=`dirname $0`
-for i in apache_php haproxy memcached percona-mysql redis tomcat;do
-  echo testing image $i:latest
-  echo ------------------------------------------------
-  $prefix_path/test_image.sh $i latest
-  echo
+PREFIX_DIR=$(dirname `readlink -f $0`)
+. $PREFIX_DIR/get_images.sh
+
+for s in $STACKLIST; do
+  for b in `get_branch $s`; do
+    echo $s:$b
+    tags=`get_tags $s $b`
+    for t in `echo $tags|tr ',' ' '`; do
+      [ "$t" = "latest" ] && continue
+      echo $PREFIX_DIR/test_image.sh nicescale/$s $t
+    done
+  done
 done
 

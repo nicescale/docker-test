@@ -1,10 +1,10 @@
 #!/bin/sh
 
-servicetype=$1
-servicevsn=latest
-[ -z "$2" ] || servicevsn=$2
+simage=$1
+stag=latest
+[ -z "$2" ] || stag=$2
 tt=`date +%s`
-sname=$servicetype-$tt
+sname=$simage-$tt
 sid=$tt
 
 iecho() {
@@ -12,7 +12,7 @@ iecho() {
 }
 
 die() {
-  /bin/echo -ne "Error: $servicetype:$servicevsn:$sid: " 1>&2
+  /bin/echo -ne "Error: $simage:$stag:$sid: " 1>&2
   /bin/echo $* 1>&2
   sleep 2
   dockernice service $sid stop
@@ -20,7 +20,7 @@ die() {
   exit 1
 }
 error() {
-  /bin/echo -ne "Error: $servicetype:$servicevsn:$sid: " 1>&2
+  /bin/echo -ne "Error: $simage:$stag:$sid: " 1>&2
   /bin/echo $* 1>&2
   exit 1
 }
@@ -51,10 +51,10 @@ waits() {
 
 
 iecho lauching docker
-dockernice run $servicetype $servicevsn $sname $sid || die "run failed!!"
+dockernice run $simage $stag $sname $sid || die "run failed!!"
 waits
-dockernice prepare $servicetype $servicevsn $sname $sid || die "prepare double failed!!"
-dockernice create $servicetype $servicevsn $sname $sid || die "create double failed!!" #|| die "create double failed!!"
+dockernice prepare $simage $stag $sname $sid || die "prepare double failed!!"
+dockernice create $simage $stag $sname $sid || die "create double failed!!" #|| die "create double failed!!"
 sleep 1
 waits
 iecho exec echo in docker
