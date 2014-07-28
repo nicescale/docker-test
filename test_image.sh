@@ -63,6 +63,7 @@ sleep 1
 waits
 iecho exec echo in docker
 dockernice exec $sid echo helloworld || die "failed to exec cmd in docker!!"
+sleep 3
 iecho restart service $sid
 dockernice service $sid restart || die "failed to restart service!!"
 waits
@@ -96,14 +97,18 @@ iecho stop service $sid again
 dockernice service $sid stop || die "failed to double stop service!!"
 waits 5 stopped
 iecho status service $sid
-dockernice service $sid status && die "service status should return nonzero!!"
+dockernice service $sid status
+es=$?
+[ $es -eq 0 ] && die "exit status:$es, service status should return 1!!"
+[ $es -eq 2 ] && die "exit status:$es, service status should return 1!!"
+
 iecho start service $sid
 dockernice service $sid start || die "failed to start service!!"
 iecho start service $sid again
 dockernice service $sid start || die "failed to double start service!!"
 waits
 iecho status service $sid
-dockernice service $sid status || die "service status should return zero!!"
+dockernice service $sid status || die "exit status:$?, service status should return zero!!"
 iecho remove service $sid
 dockernice service $sid destroy && die "remove running service should failed!!"
 iecho remove service $sid again
