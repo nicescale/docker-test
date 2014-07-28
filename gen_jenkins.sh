@@ -18,6 +18,7 @@ for s in $STACKLIST; do
       cp $JENKINS_TPL $JOB_DIR/config.xml
       sed -i -e "s/{stack}/$s/g" -e "s/{branch}/$b/g" $JOB_DIR/config.xml
       need_restart=true
+      chown -R jenkins:nogroup $JENKINS_TPL $JOB_DIR
     fi
   done
 done
