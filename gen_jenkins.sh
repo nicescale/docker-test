@@ -14,7 +14,7 @@ for s in $STACKLIST; do
     if [ ! -d $JOB_DIR ]; then
       mkdir $JOB_DIR
       cp $JENKINS_TPL $JOB_DIR/config.xml
-      sed -i -e "s/{stack}/$s/gp" -e "s/{branch}/$b/gp" $JOB_DIR/config.xml
+      sed -i -e "s/{stack}/$s/g" -e "s/{branch}/$b/g" $JOB_DIR/config.xml
       need_restart=true
     fi
   done
