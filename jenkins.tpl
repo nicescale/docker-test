@@ -42,18 +42,9 @@
     <hudson.tasks.Shell>
       <command>stack=`echo $JOB_NAME|cut -f2 -d&apos;-&apos;`
 branch=`echo $JOB_NAME|cut -f3 -d&apos;-&apos;`
-echo
-echo ------ beginning to building $stack $branch
-echo
-../docker-test/docker_build.sh $stack $branch
-echo
-echo ------ beginning to testing $stack $branch
-echo
-../docker-test/docker_test.sh $stack $branch
-echo
-echo ------ beginning to pushing $stack $branch
-echo
-../docker-test/docker_push.sh $stack $branch
+$JENKINS_HOME/jobs/docker-test/workspace/docker_build.sh $stack $branch
+$JENKINS_HOME/jobs/docker-test/workspace/docker_test.sh $stack $branch
+$JENKINS_HOME/jobs/docker-test/workspace/docker_push.sh $stack $branch
 </command>
     </hudson.tasks.Shell>
   </builders>
