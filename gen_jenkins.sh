@@ -9,9 +9,9 @@ JENKINS_CLI=$JENKINS_HOME/war/WEB-INF/jenkins-cli.jar
 need_restart=false
 for s in $STACKLIST; do
   for b in `get_branch $s`; do
-    echo "> generate jenkins config.xml for $s:$b"
     JOB_DIR=/var/jenkins_home/jobs/docker-$s-$b
     if [ ! -d $JOB_DIR ]; then
+      echo "> generate jenkins config.xml for $s:$b"
       mkdir $JOB_DIR
       cp $JENKINS_TPL $JOB_DIR/config.xml
       sed -i -e "s/{stack}/$s/g" -e "s/{branch}/$b/g" $JOB_DIR/config.xml
@@ -21,4 +21,5 @@ for s in $STACKLIST; do
 done
 
 $need_restart &&
-java -jar $JENKINS_CLI restart
+java -jar $JENKINS_CLI restart ||
+true
