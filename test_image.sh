@@ -36,8 +36,12 @@ waits() {
     es=$?
     if [ "$status" = "running" ]; then
       [ $es -eq 0 ] && break
+      dockernice service $sid start
     else
       [ $es -eq 0 ] || break
+      initctl status docker-$sid|grep stop &&
+      docker kill $sid
+      dockernice service $sid stop
     fi
     count=$(( count+1 ))
     sleep 1
