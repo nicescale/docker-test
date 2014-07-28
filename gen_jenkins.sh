@@ -11,7 +11,7 @@ JENKINS_CLI=$JENKINS_HOME/war/WEB-INF/jenkins-cli.jar
 need_restart=false
 for s in $STACKLIST; do
   for b in `get_branch $s`; do
-    JOB_DIR=/var/jenkins_home/jobs/docker-$s-$b
+    JOB_DIR=$JENKINS_HOME/jobs/docker-$s-$b
     if [ ! -d $JOB_DIR ]; then
       echo "> generate jenkins config.xml for $s:$b"
       mkdir $JOB_DIR
