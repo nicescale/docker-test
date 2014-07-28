@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x
+set -e
 
 NICEDOCKER_URL=repo.nicedocker.com:5000
 PREFIX_DIR=$(dirname `readlink -f $0`)
