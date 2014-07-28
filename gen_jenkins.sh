@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 PREFIX_DIR=$(dirname `readlink -f $0`)
 . $PREFIX_DIR/get_images.sh
 JENKINS_TPL=$PREFIX_DIR/jenkins.tpl
