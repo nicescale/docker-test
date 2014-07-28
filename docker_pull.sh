@@ -2,7 +2,8 @@
 
 NICEDOCKER_URL=repo.nicedocker.com:5000
 PREFIX_DIR=$(dirname `readlink -f $0`)
-. $PREFIX_DIR/get_images.sh
+echo $PREFIX
+source $PREFIX_DIR/get_images.sh
 
 for STACK in $STACKLIST; do
   for BRANCH in `get_branch $STACK`; do
