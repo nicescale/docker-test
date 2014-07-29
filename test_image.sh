@@ -100,7 +100,7 @@ iecho status service $sid
 dockernice service $sid status
 es=$?
 [ $es -eq 0 ] && die "exit status:$es, service status should return 1!!"
-[ $es -eq 2 ] && die "exit status:$es, service status should return 1!!"
+[ $es -eq 2 -o $es -eq 3 ] && die "exit status:$es, service status should return 1!!"
 
 iecho start service $sid
 dockernice service $sid start || die "failed to start service!!"
