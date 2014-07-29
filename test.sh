@@ -4,6 +4,7 @@ PREFIX_DIR=$(dirname `readlink -f $0`)
 . $PREFIX_DIR/get_images.sh
 
 for s in $STACKLIST; do
+  echo $s|grep -q registry && continue
   for b in `get_branch $s`; do
     echo $s:$b
     tags=`get_tags $s $b`
