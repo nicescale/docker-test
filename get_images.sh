@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PREFIX_DIR=$(dirname `readlink -f $0`)
+PREFIX_DIR=`dirname $BASH_SOURCE[0]`
 stackfile=$PREFIX_DIR/stacklist.conf
 
 ini_section() {
