@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PREFIX_DIR=`dirname $BASH_SOURCE[0]`
+PREFIX_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 stackfile=$PREFIX_DIR/stacklist.conf
 
 ini_section() {
