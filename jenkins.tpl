@@ -46,6 +46,7 @@ branch=`echo $TVAR|rev|cut -d&apos;-&apos; -f1|rev`
 $JENKINS_HOME/jobs/docker-test/workspace/docker_build.sh $stack $branch
 $JENKINS_HOME/jobs/docker-test/workspace/docker_test.sh $stack $branch
 $JENKINS_HOME/jobs/docker-test/workspace/docker_push.sh $stack $branch
+$JENKINS_HOME/remote_build.sh
 </command>
     </hudson.tasks.Shell>
   </builders>
